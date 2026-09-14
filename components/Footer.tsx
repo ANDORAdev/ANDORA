@@ -491,6 +491,7 @@ export default function Footer() {
               <ColLink href="/docs">Docs.</ColLink>
               <ColLink href="/terms">Terms of service.</ColLink>
               <ColLink href="/privacy">Privacy policy.</ColLink>
+              <ColLink href={BRAND.githubUrl} external>GitHub.</ColLink>
               <ColLink href={BRAND.twitterUrl} external>X.</ColLink>
             </div>
           </div>

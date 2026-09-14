@@ -52,10 +52,13 @@ interface SocialLink {
   label: string;
   aria: string;
   external?: boolean;
+  /** Hidden from the top bar on narrow laptops; still in the footer and drawer. */
+  secondary?: boolean;
 }
 
 const SOCIAL_LINKS: SocialLink[] = [
-  { href: "/docs", label: "Docs", aria: "Documentation", external: false },
+  { href: "/docs", label: "Docs", aria: "Documentation", external: false, secondary: true },
+  { href: BRAND.githubUrl, label: "GitHub", aria: "GitHub", secondary: true },
   { href: BRAND.twitterUrl, label: "X", aria: "Twitter / X" },
 ];
 
@@ -735,9 +738,9 @@ export default function BottomNav({ logoRef, introPlayed }: BottomNavProps) {
   return createPortal(
     <>
       <style>{`
-        /* Narrow laptops: the bar is crowded, Docs stays in the footer and drawer */
+        /* Narrow laptops: the bar is crowded, Docs and GitHub stay in the footer and drawer */
         @media (max-width: 1180px) {
-          .top-nav-docs { display: none !important; }
+          .top-nav-secondary { display: none !important; }
         }
         @media (max-width: 900px) {
           .top-nav-links { display: none !important; }
@@ -913,7 +916,7 @@ export default function BottomNav({ logoRef, introPlayed }: BottomNavProps) {
                 }}
               >
                 {SOCIAL_LINKS.map((s) => (
-                  <span key={s.href} className={s.href === "/docs" ? "top-nav-docs" : undefined} style={{ display: "inline-flex" }}>
+                  <span key={s.href} className={s.secondary ? "top-nav-secondary" : undefined} style={{ display: "inline-flex" }}>
                     <DotLink
                       href={s.href}
                       label={s.label}

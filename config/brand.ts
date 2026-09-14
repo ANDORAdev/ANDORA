@@ -35,6 +35,7 @@ export const BRAND = {
   // Social
   twitter: "@ANDORArwa",
   twitterUrl: "https://x.com/ANDORArwa",
+  githubUrl: "https://github.com/ANDORAdev/ANDORA",
 
   // Assets
   logo: "/logo.svg",
