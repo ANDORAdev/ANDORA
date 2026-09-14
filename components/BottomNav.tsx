@@ -742,7 +742,8 @@ export default function BottomNav({ logoRef, introPlayed }: BottomNavProps) {
         @media (max-width: 1180px) {
           .top-nav-secondary { display: none !important; }
         }
-        @media (max-width: 900px) {
+        /* Below 1024px the links no longer fit beside the wordmark: menu button instead */
+        @media (max-width: 1023px) {
           .top-nav-links { display: none !important; }
           .top-nav-socials { display: none !important; }
         }
@@ -765,9 +766,9 @@ export default function BottomNav({ logoRef, introPlayed }: BottomNavProps) {
         @media (max-width: 767px) {
           .top-nav-app-btn { display: none !important; }
         }
-        /* Hamburger button: show on mobile only */
+        /* Hamburger button: shown whenever the links are hidden */
         .top-nav-hamburger { display: none; }
-        @media (max-width: 767px) {
+        @media (max-width: 1023px) {
           .top-nav-hamburger { display: flex !important; }
         }
       `}</style>
@@ -794,7 +795,9 @@ export default function BottomNav({ logoRef, introPlayed }: BottomNavProps) {
               display: "grid",
               gridTemplateColumns: "1fr auto 1fr",
               alignItems: "center",
-              padding: "18px clamp(12px, 14vw, 220px)",
+              // Content stays ~1100px wide on big screens; on smaller ones the
+              // side groups move out to 24px from the edges.
+              padding: "18px clamp(24px, calc((100vw - 1100px) / 2), 220px)",
               pointerEvents: "none",
               // Fully transparent always. Blur only when scrolled past top so
               // content behind stays readable. No tint, no border, no color.
