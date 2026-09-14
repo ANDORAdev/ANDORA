@@ -1,0 +1,337 @@
+@import "tailwindcss";
+
+/* ─── Aeonik variable font ─────────────────────────────────────── */
+@font-face {
+  font-family: "Aeonik";
+  src: url("/fonts/aeonik-variable-roman.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Design token CSS variables ────────────────────────────────── */
+:root {
+  /* Surfaces — bg + bg-elevated unified to kill section-join seams. */
+  --bg: #0C0C0C;
+  --bg-elevated: #0C0C0C;
+  --bg-card: #15151a;
+  --bg-hover: #1c1c22;
+  --border: #26262d;
+  --border-strong: #3a3a44;
+
+  /* Text */
+  --text: #fafaf5;
+  --text-muted: #9b9b9b;
+  --text-dim: #5a5a5a;
+
+  /* Accent */
+  --accent: #ff5722;
+  --accent-bright: #ff7042;
+  --accent-deep: #cc3a00;
+  --accent-soft: rgba(255, 87, 34, 0.12);
+  --accent-glow: rgba(255, 87, 34, 0.4);
+
+  /* Scrollbar — follows the user's chosen accent (--accent is set per
+     data-theme/data-accent by the pre-paint script). JS (BottomNav)
+     overrides this per marketing section. */
+  --scrollbar-thumb: var(--accent, #ff5722);
+  --scrollbar-track-bg: #0C0C0C;
+
+  /* Semantic */
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+
+  /* Shadows */
+  --shadow-glow: 0 0 40px rgba(255, 87, 34, 0.4);
+  --shadow-glow-strong: 0 0 80px rgba(255, 87, 34, 0.6);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-card-hover: 0 8px 40px rgba(0, 0, 0, 0.6);
+
+  /* Motion */
+  --motion-quick: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-slow: 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Fonts */
+  --font-sans: "Aeonik", var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), "JetBrains Mono", "Fira Code", monospace;
+}
+
+/* ─── Base reset ─────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+  height: 100%;
+  /* overflow-x: clip instead of hidden — "hidden" breaks position:sticky on descendants */
+  overflow-x: clip;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100%;
+  /* overflow-x: clip instead of hidden — "hidden" creates a new scroll container
+     which breaks position:sticky. clip achieves the same visual result without that side effect. */
+  overflow-x: clip;
+  cursor: none; /* custom cursor replaces native on desktop */
+}
+
+@media (max-width: 768px) {
+  body {
+    cursor: auto;
+  }
+}
+
+/* ─── Selection ──────────────────────────────────────────────────── */
+::selection {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────── */
+/* Thumb color is theme-reactive: BottomNav writes --scrollbar-thumb on
+   <html> as the user scrolls. Orange by default, black on accent sections.
+   Track + scrollbar background are fully transparent so the section bg shows
+   through (orange on Ready, dark elsewhere). */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+  background: var(--scrollbar-track-bg, #0C0C0C) !important;
+  background-color: var(--scrollbar-track-bg, #0C0C0C) !important;
+  transition: background-color 280ms ease;
+}
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+html::-webkit-scrollbar-track-piece,
+body::-webkit-scrollbar-track-piece,
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track-piece {
+  background: var(--scrollbar-track-bg, #0C0C0C) !important;
+  background-color: var(--scrollbar-track-bg, #0C0C0C) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+html::-webkit-scrollbar-corner,
+body::-webkit-scrollbar-corner,
+::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+/* Hide the up/down arrow buttons some browsers/OSes show */
+html::-webkit-scrollbar-button,
+body::-webkit-scrollbar-button,
+::-webkit-scrollbar-button {
+  display: none !important;
+  background: transparent !important;
+  height: 0 !important;
+  width: 0 !important;
+}
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb, #ff5722) !important;
+  border-radius: 999px !important;
+  border: 2px solid transparent !important;
+  background-clip: padding-box !important;
+  transition: background-color 280ms ease;
+}
+/* Firefox */
+html {
+  scrollbar-color: var(--scrollbar-thumb, #ff5722) transparent;
+  scrollbar-width: thin;
+}
+
+/* ─── Typography utilities ───────────────────────────────────────── */
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-subtle {
+  background: linear-gradient(180deg, var(--text) 60%, var(--text-muted) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Ticker animation ───────────────────────────────────────────── */
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-ticker {
+  animation: ticker 30s linear infinite;
+}
+
+/* ─── Fade up ────────────────────────────────────────────────────── */
+@keyframes fade-up {
+  0% { opacity: 0; transform: translateY(24px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ─── Shimmer (skeleton loading) ────────────────────────────────── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--bg-card) 0%,
+    var(--bg-hover) 50%,
+    var(--bg-card) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* ─── Glow ring ──────────────────────────────────────────────────── */
+.glow-ring {
+  box-shadow: 0 0 0 1px var(--accent-soft), var(--shadow-glow);
+}
+
+/* ─── Glass effect ───────────────────────────────────────────────── */
+.glass {
+  background: rgba(21, 21, 26, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
+
+/* ─── Focus visible ──────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Lenis smooth scroll override ──────────────────────────────── */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* ─── Canvas fill ────────────────────────────────────────────────── */
+canvas {
+  display: block;
+}
+
+/* ─── GSAP hidden state (JS adds visible class) ─────────────────── */
+.gsap-hidden {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* ─── Terminal cursor blink ──────────────────────────────────────── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* ─── Hero polygon CSS animations (GPU-composited, no JS RAF) ───── */
+@keyframes spin-cw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes spin-ccw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+@keyframes pulse-scale {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.04); }
+}
+@keyframes polygon-fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* layer-cycle: 24s loop, 4 layers staggered 6s apart. Hard cut — one shape at a time, zero overlap. */
+@keyframes layer-cycle {
+  0%    { opacity: 1; }
+  24.9% { opacity: 1; }
+  25%   { opacity: 0; }
+  100%  { opacity: 0; }
+}
+
+/* ─── Border glow on hover ───────────────────────────────────────── */
+.border-glow-hover {
+  transition: box-shadow var(--motion-base), border-color var(--motion-base);
+}
+.border-glow-hover:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft), var(--shadow-glow);
+}
+
+/* ─── Reduced motion: skip x/y travel, keep opacity ─────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Brand mark: invert the white logo to black in light mode ──── */
+[data-theme="light"] .agora-brand-mark {
+  filter: invert(1);
+}
+
+/* ─── Halftone (dot-grid) text effect ──────────────────────────────
+   Tiles a radial-gradient and clips it to the text shape, so the glyphs
+   render as a dot grid instead of a solid fill. The dot colour resolves
+   to the live --text CSS var so it adapts to the active theme.
+   The gradient stops are 1% apart for a crisp (non-fading) dot edge. */
+.agora-halftone-text {
+  background-image: radial-gradient(
+    var(--text) 50%,
+    transparent 51%
+  );
+  background-size: 2.5px 2.5px;
+  background-position: 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}

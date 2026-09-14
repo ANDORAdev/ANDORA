@@ -1,0 +1,21 @@
+node_modules/
+.next/
+.env
+.env.local
+.env.*.local
+.DS_Store
+*.log
+.vercel/
+dist/
+build/
+out/
+coverage/
+.turbo/
+
+# TypeScript incremental cache
+*.tsbuildinfo
+
+
+
+# Licensed font, not redistributed (the page falls back to Geist)
+/public/fonts/
