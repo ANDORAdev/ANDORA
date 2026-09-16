@@ -7,8 +7,8 @@
  * prices users see match what liquidations use. Read directly from the chain
  * in the browser: no API key, no backend.
  *
- * Feeds update 24/5 with a 0.5% deviation threshold and hold the last price
- * while the US market is closed (check `updatedAt`).
+ * Feeds update 24/5 (Sunday 8 PM to Friday 8 PM ET) with a 0.5% deviation
+ * threshold and hold the last price over weekends and holidays (check `updatedAt`).
  */
 
 import { parseAbi, type Address } from "viem";

@@ -35,13 +35,13 @@ health factor = collateral value × liquidation LTV ÷ debt
 | Health factor | Status |
 |---|---|
 | 1.50 or more | Safe |
-| 1.15 to 1.50 | Watch: consider repaying or adding collateral |
-| Below 1.15 | At risk |
+| 1.10 to 1.50 | Watch: consider repaying or adding collateral |
+| Below 1.10 | At risk |
 | Below 1.00 | Can be liquidated |
 
 When the health factor falls below 1.00, anyone can repay part of the debt and receive part of the collateral at a discount, the liquidation penalty. The borrower keeps the rest of the collateral and the USDG they borrowed. Liquidations can happen at any time, including when the US market is closed.
 
-The **liquidation price** is the token price at which the health factor reaches 1.00. Example in a market with a 62.5% liquidation LTV: 10 tokens at $200 ($2,000) with $1,000 borrowed have a health factor of 1.25 and a liquidation price of about $160.00.
+The **liquidation price** is the token price at which the health factor reaches 1.00. Example in a market with a 62.5% liquidation LTV: 10 tokens at $200 ($2,000) with $800 borrowed (40% LTV) have a health factor of 1.56 and a liquidation price of about $128.00.
 
 ## Interest rates
 
@@ -55,9 +55,9 @@ Withdrawals need free liquidity: if most of a vault is lent out, lenders may hav
 
 ## Prices
 
-Prices come from the **Chainlink** feeds on Robinhood Chain, the same feeds that decide borrow limits and liquidations. Each feed returns the price of one token: the share price times a multiplier that includes reinvested dividends, so a token can be worth slightly more than one share. Feeds update 24/5 when the price moves 0.5% or more (and at least every 24 hours), and hold the last price while the US market is closed.
+Prices come from the **Chainlink** feeds on Robinhood Chain, the same feeds that decide borrow limits and liquidations. Each feed returns the price of one token: the share price times a multiplier that includes reinvested dividends, so a token can be worth slightly more than one share. Feeds update 24/5, from Sunday 8:00 PM to Friday 8:00 PM ET, when the price moves 0.5% or more. Over the weekend and on US market holidays they hold the last price.
 
-Stock tokens keep trading onchain when the US market is closed, but the underlying shares don't. Prices can jump at the open, so keep a buffer above your liquidation price over weekends and holidays.
+Stock tokens trade onchain 24/7. The underlying shares trade from Sunday 8:00 PM to Friday 8:00 PM ET (overnight, pre-market, regular session and after-hours), with fewer trades outside the regular session. Over weekends and holidays they don't trade, and prices can jump when trading resumes, so keep a buffer above your liquidation price.
 
 ## Assets
 

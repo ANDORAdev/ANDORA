@@ -51,11 +51,13 @@ export const COLLATERAL_ASSETS: (Asset & { tier: RiskTier })[] = [
 
 /**
  * Health factor bands. Health factor = (collateral value × liquidation LTV) / debt.
- * Below 1.0 a position can be liquidated.
+ * Below 1.0 a position can be liquidated. `watch` must not exceed the lowest
+ * liquidation LTV ÷ max LTV (index ETFs: 77/70 = 1.10), so a fresh loan at
+ * max LTV shows Watch, not At risk.
  */
 export const HEALTH_THRESHOLDS = {
   safe: 1.5,
-  watch: 1.15,
+  watch: 1.1,
 } as const;
 
 /** Countries where stock tokens are not offered (Robinhood Chain terms). */
