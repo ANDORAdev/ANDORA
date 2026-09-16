@@ -76,10 +76,10 @@ function MarketCard({
       {/* Big faded logo behind the card content */}
       {logo && (
         <LogoMark
-          className={`fm-bg-logo${aspect > 2 ? " fm-bg-logo-wide" : ""}`}
+          className={`fm-bg-logo${aspect > 2 ? " fm-bg-logo-wide" : ""}${aspect > 4 ? " fm-bg-logo-xwide" : ""}`}
           src={logo}
           aspect={aspect}
-          height={Math.round(Math.min(150, 230 / aspect))}
+          height={Math.round(Math.min(150, (aspect > 4 ? 290 : 230) / aspect))}
           color={DESIGN.colors.text}
         />
       )}
@@ -306,6 +306,8 @@ export default function FeaturedMarkets() {
         /* Wide wordmarks (SPDR) sit further inside the card. */
         .fm-bg-logo-wide { right: 14px; bottom: 2px; opacity: 0.13; transform: rotate(-8deg); }
         .fm-card:hover .fm-bg-logo-wide { opacity: 0.2; transform: rotate(-4deg) scale(1.04); }
+        /* Very wide wordmarks (Coinbase) get more width and sit a bit higher so the letters stay visible. */
+        .fm-bg-logo-xwide { bottom: 14px; }
         .fm-card:focus-visible {
           outline: 2px solid ${DESIGN.colors.accent};
           outline-offset: 2px;
