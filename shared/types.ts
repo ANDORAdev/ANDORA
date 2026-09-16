@@ -18,6 +18,8 @@ export interface Asset {
   decimals: number;
   logo?: string;                // single-color mark in /public/logos (used as a mask)
   logoAspect?: number;          // width / height of the mark, default 1
+  watermark?: string;           // larger logo for card backgrounds, defaults to logo
+  watermarkAspect?: number;     // width / height of watermark, default 1
   priceFeed?: Address;          // Chainlink price feed proxy on Robinhood Chain (price of one token)
   tradingViewSymbol?: string;   // underlying stock for charts, e.g. "NASDAQ:NVDA"
 }

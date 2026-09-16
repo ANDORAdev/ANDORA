@@ -62,6 +62,8 @@ function MarketCard({
   const change = market.price.change24hBps;
   const logo = market.collateral.logo;
   const aspect = market.collateral.logoAspect ?? 1;
+  const bgLogo = market.collateral.watermark ?? logo;
+  const bgAspect = market.collateral.watermark ? (market.collateral.watermarkAspect ?? 1) : aspect;
   const changeColor = (change ?? 0) >= 0 ? DESIGN.colors.success : DESIGN.colors.danger;
 
   return (
@@ -74,12 +76,12 @@ function MarketCard({
       onMouseLeave={cursorProps.onMouseLeave}
     >
       {/* Big faded logo behind the card content */}
-      {logo && (
+      {bgLogo && (
         <LogoMark
-          className={`fm-bg-logo${aspect > 2 ? " fm-bg-logo-wide" : ""}${aspect > 4 ? " fm-bg-logo-xwide" : ""}`}
-          src={logo}
-          aspect={aspect}
-          height={Math.round(Math.min(150, (aspect > 4 ? 290 : 230) / aspect))}
+          className={`fm-bg-logo${bgAspect > 2 ? " fm-bg-logo-wide" : ""}${bgAspect > 4 ? " fm-bg-logo-xwide" : ""}`}
+          src={bgLogo}
+          aspect={bgAspect}
+          height={Math.round(Math.min(150, (bgAspect > 4 ? 290 : 230) / bgAspect))}
           color={DESIGN.colors.text}
         />
       )}
